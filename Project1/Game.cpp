@@ -3,23 +3,22 @@
 
 namespace ApplesGame
 {
-	void InitGame(Game& game)
+	void RestartGame(Game& game)
 	{
-		// load resources
-		assert(game.playerTexture.loadFromFile(RESOURCES_PATH + "\\Player.png"));
-		assert(game.appleTexture.loadFromFile(RESOURCES_PATH + "\\Apple.png"));
-		assert(game.stoneTexture.loadFromFile(RESOURCES_PATH + "\\Rock.png"));
-		assert(game.crashSoundBuf.loadFromFile(RESOURCES_PATH + "\\Death.wav"));
-		assert(game.eatenSoundBuf.loadFromFile(RESOURCES_PATH + "\\AppleEat.wav"));
-		assert(game.font.loadFromFile(RESOURCES_PATH + "\\Fonts\\Roboto-Black.ttf"));
-
-		// init game objects
-		game.screenRect = {0.f, 0.f, SCREEN_WIDTH, SCREEN_HEIGHT};
-
+		// init player state
 		InitPlayer(game.player, game);
 
 		// init apples
-		for (int i = 0; i < NUM_APPLES; ++i)
+		if ((game.gameMode & (1 << 0)) || (game.gameMode & (1 << 1)) || (game.gameMode & (1 << 3)))
+		{
+			game.numApples = 20;
+		}
+		else if (game.gameMode & (1 << 2))
+		{
+			game.numApples = 50;
+		}
+		game.apple = new Apple[game.numApples];
+		for (int i = 0; i < game.numApples; ++i)
 		{
 			InitApples(game.apple[i], game);
 		}
@@ -30,165 +29,134 @@ namespace ApplesGame
 			InitStones(game.stone[i], game);
 		}
 
-		// init background
-		game.background.setSize(sf::Vector2f(game.screenRect.size.x, game.screenRect.size.y));
-		game.background.setFillColor(sf::Color::Black);
-		game.background.setPosition(0.f, 0.f);
-
-		// init sounds
-		//game.player.soundEat.setBuffer(game.eatenSoundBuf);
-		//game.player.soundCrash.setBuffer(game.crashSoundBuf);
-
-		// init text
-		InitUI(game.uiState, game);
-
-		StartPlayingState(game);
+		// init game global state
+		game.numEatenApples = 0;
+		game.blsPause = false;
+		game.PauseTimeLeft = 0.f;
 	}
 
-	void UpdateGame(Game& game, float deltaTime)
+	void InitGame(Game& game)
 	{
-		// update gamestate
-		if (!game.blsPause)
-		{
-			UpdatePlayingState(game, deltaTime);
-		}
-		else
-		{
-			UpdateGameoverState(game, deltaTime);
-		}
+		assert(game.playerTexture.loadFromFile(RESOURCES_PATH + "\\Player.png"));
+		assert(game.appleTexture.loadFromFile(RESOURCES_PATH + "\\Apple.png"));
+		assert(game.stoneTexture.loadFromFile(RESOURCES_PATH + "\\Rock.png"));
+		assert(game.crashSoundBuf.loadFromFile(RESOURCES_PATH + "\\Death.wav"));
+		assert(game.eatenSoundBuf.loadFromFile(RESOURCES_PATH + "\\AppleEat.wav"));
+		assert(game.font.loadFromFile(RESOURCES_PATH + "\\Fonts\\Roboto-Black.ttf"));
+
+		InitUI(game.uiState, game);
+		RestartGame(game);
 	}
 
 	void HandleInput(Game& game)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
-			SetPlayerDirection(game.player, PlayerDirection::Right);
+			game.player.direction = PlayerDirection::Right;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
-			SetPlayerDirection(game.player, PlayerDirection::Up);
+			game.player.direction = PlayerDirection::Up;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
-			SetPlayerDirection(game.player, PlayerDirection::Left);
+			game.player.direction = PlayerDirection::Left;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
-			SetPlayerDirection(game.player, PlayerDirection::Down);
+			game.player.direction = PlayerDirection::Down;
 		}
 	}
 
-	void StartPlayingState(Game& game)
+	void UpdateGame(Game& game, float deltaTime)
 	{
-		// init player
-		SetPlayerPosition(game.player, {SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f});
-		SetPlayerSpeed(game.player, INITIAL_SPEED);
-		SetPlayerDirection(game.player, PlayerDirection::Right);
-
-		// init apples
-		for (int i = 0; i < NUM_APPLES; ++i)
+		if (!game.blsPause)
 		{
-			SetApplePosition(game.apple[i], GetRandomPositionInScreen(game.screenRect));
-		}
+			HandleInput(game);
 
-		// init stones
-		for (int i = 0; i < NUM_STONES; ++i)
-		{
-			SetStonePosition(game.stone[i], GetRandomPositionInScreen(game.screenRect));
-		}
-
-		game.numEatenApples = 0;
-		game.blsPause = false;
-		game.PauseTimeLeft = 0.f;
-		UpdateUI(game.uiState, game);
-	}
-
-	void StartGameoverState(Game& game)
-	{
-		game.blsPause = true;
-		game.PauseTimeLeft = 0.f;
-
-		// Crash sound player
-		game.player.soundCrash.play();
-
-		game.uiState.isGameOverText = game.blsPause;
-		game.uiState.gameOverScoreText.setString("Your scores: " + std::to_string(game.numEatenApples));
-	}
-
-	void UpdateGameoverState(Game& game, float deltaTime)
-	{
-		if (game.PauseTimeLeft <= PAUSE_LENGHT)
-		{
-			game.PauseTimeLeft += deltaTime;
-			game.background.setFillColor(sf::Color::Red);
-		}
-		else
-		{
-			// reset background
-			game.background.setFillColor(sf::Color::Black);
-
-			StartPlayingState(game);
-		}
-	}
-
-	void DeinitalizeGame(Game& game)
-	{
-	}
-
-	void UpdatePlayingState(Game& game, float deltaTime)
-	{
-		
-		HandleInput(game);
-
-		UpdatePlayerState(game.player, deltaTime);
+			UpdatePlayerState(game.player, deltaTime);
 			
-			
-		// check screen border collision
-		if (!DoShapesCollide(GetPlayerCollider(game.player), game.screenRect))
-		{
-			StartGameoverState(game);
-		}
-			
-		// find player collisions with stones
-		for (int i = 0; i < NUM_STONES; ++i)
-		{
-			if (DoShapesCollide(GetPlayerCollider(game.player), GetStoneCollider(game.stone[i])))
+			// Check screen border collision
+			if (game.player.position.x - PLAYER_SIZE / 2.f < 0 || game.player.position.x + PLAYER_SIZE / 2.f > SCREEN_WIDTH ||
+				game.player.position.y - PLAYER_SIZE / 2.f < 0 || game.player.position.y + PLAYER_SIZE / 2.f > SCREEN_HEIGHT)
 			{
 				StartGameoverState(game);
 			}
-		}
-
-		// find player collisions with apples
-		for (int i = 0; i < NUM_APPLES; ++i)
-		{
-			if (DoShapesCollide(GetPlayerCollider(game.player), GetAppleCollider(game.apple[i])))
+			
+			// Check stones collision
+			for (int i = 0; i < NUM_STONES; ++i)
 			{
-				//sound eat apple
-				game.player.soundEat.play();
+				if (IsRectanglesCollide(game.player.position, { PLAYER_SIZE, PLAYER_SIZE },
+					game.stone[i].position, { STONES_SIZE, STONES_SIZE }))
+				{
+					StartGameoverState(game);
+				}
+			}
+			
+			// check apple collision
+			for (int i = 0; i < game.numApples; ++i)
+			{
+				if (IsCirclesCollide(game.player.position, PLAYER_SIZE / 2.f,
+					game.apple[i].position, APPLE_SIZE / 2.f) && !game.apple[i].isAppleEatan)
+				{
+					//sound eat apple
+					game.player.soundEat.play();
 
-				++game.numEatenApples;
-				// Update player speed
-				SetPlayerSpeed(game.player, GetPlayerSpeed(game.player) + ACCELERATION);
-				// Creating a New Apple
-				SetApplePosition(game.apple[i], GetRandomPositionInScreen(game.screenRect));
-				UpdateUI(game.uiState, game);
+					game.numEatenApples++;
+					// Update player speed
+					if ((game.gameMode & (1 << 1)) || (game.gameMode & (1 << 2)))
+					{
+						game.player.speed += ACCELERATION;
+					}
+					// Creating a New Apple
+					if ((game.gameMode & (1 << 0)))
+					{
+						game.apple[i].position = GetRandomPositionInScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
+					}
+					else
+					{
+						game.apple[i].isAppleEatan = true;
+					}
+				}
 			}
 		}
+		else
+		{
+			if (game.PauseTimeLeft <= 0)
+			{
+				RestartGame(game);
+			}
+			else
+			{
+				game.PauseTimeLeft -= deltaTime;
+			}
+		}
+		UpdateUI(game.uiState, game);
 	}
 
 	void DrawGame(Game& game, sf::RenderWindow& window)
 	{
 		DrawPlayer(game.player, window);
-		for (int i = 0; i < NUM_APPLES; ++i)
+		for (int i = 0; i < game.numApples; ++i)
 		{
-			DrawApple(game.apple[i], window);
+			if (!game.apple[i].isAppleEatan)
+			{
+				DrawApple(game.apple[i], window);
+			}
 		}
 		for (int i = 0; i < NUM_STONES; ++i)
 		{
 			DrawStone(game.stone[i], window);
 		}
-
-		// draw text
 		DrawUI(game.uiState, window);
+	}
+	void StartGameoverState(Game& game)
+	{
+		game.blsPause = true;
+		game.PauseTimeLeft = PAUSE_LENGHT;
+
+		game.player.soundCrash.play();
+		game.uiState.isGameOverText = game.blsPause;
+		game.uiState.gameOverScoreText.setString("Your scores: " + std::to_string(game.numEatenApples));
 	}
 }

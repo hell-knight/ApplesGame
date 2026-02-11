@@ -4,13 +4,13 @@
 
 namespace ApplesGame
 {
-	void InitUI(UIState& uiState, Game& game)
+	void InitUI(UIState& uiState, const Game& game)
 	{
 		uiState.scoreText.setFont(game.font);
 		uiState.scoreText.setCharacterSize(20);
 		uiState.scoreText.setFillColor(sf::Color::White);
 		uiState.scoreText.setPosition(10.f, 10.f);
-
+		
 		uiState.inputHitText.setFont(game.font);
 		uiState.inputHitText.setCharacterSize(20);
 		uiState.inputHitText.setFillColor(sf::Color::White);

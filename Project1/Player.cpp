@@ -5,6 +5,11 @@ namespace ApplesGame
 {
 	void InitPlayer(Player& player, const Game& game)
 	{
+		// init player state
+		player.position = { SCREEN_WIDTH / 2.f , SCREEN_HEIGHT / 2.f };
+		player.speed = INITIAL_SPEED;
+		player.direction = PlayerDirection::Right;
+
 		// init player sprite
 		player.sprite.setTexture(game.playerTexture);
 		SetSpriteSize(player.sprite, PLAYER_SIZE, PLAYER_SIZE);
@@ -13,31 +18,6 @@ namespace ApplesGame
 		// init player sound
 		player.soundEat.setBuffer(game.eatenSoundBuf);
 		player.soundCrash.setBuffer(game.crashSoundBuf);
-	}
-
-	void SetPlayerDirection(Player& player, PlayerDirection direction)
-	{
-		player.direction = direction;
-	}
-
-	void SetPlayerPosition(Player& player, const Position2D& position)
-	{
-		player.position = position;
-	}
-
-	void SetPlayerSpeed(Player& player, float speed)
-	{
-		player.speed = speed;
-	}
-
-	float GetPlayerSpeed(const Player& player)
-	{
-		return player.speed;
-	}
-
-	Rectangle GetPlayerCollider(const Player& player)
-	{
-		return {player.position, PLAYER_SIZE / 2.f};
 	}
 
 	void DrawPlayer(Player& player, sf::RenderWindow& window)
@@ -103,4 +83,18 @@ namespace ApplesGame
 		}
 		}
 	}
+
+	/*void CheckBorderCollision(Game& game)
+	{
+		// Check screen border collision
+		if (game.player.position.x - PLAYER_SIZE / 2.f < 0 || game.player.position.x + PLAYER_SIZE / 2.f > SCREEN_WIDTH ||
+			game.player.position.y - PLAYER_SIZE / 2.f < 0 || game.player.position.y + PLAYER_SIZE / 2.f > SCREEN_HEIGHT)
+		{
+			game.blsPause = true;
+			game.PauseTimeLeft = PAUSE_LENGHT;
+
+			// Crash sound player
+			game.player.soundCrash.play();
+		}
+	}*/
 }

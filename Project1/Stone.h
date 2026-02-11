@@ -15,11 +15,5 @@ namespace ApplesGame
 
 	void InitStones(Stone& stone, const Game& game);
 
-	void SetStonePosition(Stone& stone, const Position2D& position);
-
-	Rectangle GetStoneCollider(const Stone& stone);
-
 	void DrawStone(Stone& stone, sf::RenderWindow& window);
-
-	void CheckStoneCollision(Game& game);
 }

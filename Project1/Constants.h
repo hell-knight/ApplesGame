@@ -9,7 +9,7 @@ namespace ApplesGame
 	const float INITIAL_SPEED = 100.f; // Pixels per second
 	const float PLAYER_SIZE = 20.f;
 	const float ACCELERATION = 10.f; // Pixels per second
-	const int NUM_APPLES = 20;
+	//const int NUM_APPLES = 20;
 	const float APPLE_SIZE = 20.f;
 	const float PAUSE_LENGHT = 3.f;
 	const float STONES_SIZE = 15.f;

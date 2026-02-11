@@ -12,13 +12,12 @@ namespace ApplesGame
 {
 	struct Game
 	{
-		Rectangle screenRect;
-
 		// player data
 		Player player;
 
 		// apples data
-		Apple apple[NUM_APPLES];
+		Apple* apple = nullptr;
+		unsigned short numApples = 0;
 
 		// stones data
 		Stone stone[NUM_STONES];
@@ -29,7 +28,7 @@ namespace ApplesGame
 		int numEatenApples = 0;
 		bool blsPause = false;
 		float PauseTimeLeft = 0.f;
-		sf::RectangleShape background;
+		uint32_t gameMode = 0;
 
 		// recources
 		sf::Texture playerTexture;
@@ -40,16 +39,15 @@ namespace ApplesGame
 		sf::Font font;
 	};
 
+	void RestartGame(Game& game);
+
 	void InitGame(Game& game);
+
 	void UpdateGame(Game& game, float deltaTime);
+
 	void DrawGame(Game& game, sf::RenderWindow& window);
-	void DeinitalizeGame(Game& game);
-
-	void HandleInput(Game& game);
-
-	void StartPlayingState(Game& game);
-	void UpdatePlayingState(Game& game, float deltaTime);
 
 	void StartGameoverState(Game& game);
-	void UpdateGameoverState(Game& game, float deltaTime);
+
+	void HandleInput(Game& game);
 }

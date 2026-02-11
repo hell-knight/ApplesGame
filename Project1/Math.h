@@ -15,23 +15,7 @@ namespace ApplesGame
 
 	typedef Vector2D Position2D;
 
-	struct Rectangle
-	{
-		Position2D position;
-		Vector2D size;
-	};
-
-	struct Circle
-	{
-		Position2D position;
-		float radius;
-	};
-
-	bool DoShapesCollide(const Rectangle& rect1, const Rectangle& rect2);
-	bool DoShapesCollide(const Circle& circle1, const Circle& circle2);
-	bool DoShapesCollide(const Rectangle& rect, const Circle& circle);
-
-	Position2D GetRandomPositionInScreen(Rectangle& screen);
+	Position2D GetRandomPositionInScreen(float screenWidth, float screenHeight);
 
 	bool IsRectanglesCollide(Position2D rect1Position, Vector2D rect1Size,
 		Position2D rect2Position, Vector2D rect2Size);

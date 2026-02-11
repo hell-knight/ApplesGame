@@ -9,17 +9,12 @@ namespace ApplesGame
 	{
 		Position2D position;
 		sf::Sprite sprite;
+		bool isAppleEatan = false;
 	};
 
 	struct Game;
 
 	void InitApples(Apple& apple, const Game& game);
 
-	void SetApplePosition(Apple& apple, const Position2D& position);
-
-	Circle GetAppleCollider(const Apple& apple);
-
 	void DrawApple(Apple& apple, sf::RenderWindow& window);
-
-	void CheckAppleCollision(Game& game);
 }

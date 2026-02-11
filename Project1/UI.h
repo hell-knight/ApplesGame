@@ -16,7 +16,7 @@ namespace ApplesGame
 
 	struct Game;
 
-	void InitUI(UIState& uiState, Game& game);
+	void InitUI(UIState& uiState, const Game& game);
 
 	void UpdateUI(UIState& uiState, Game& game);
 

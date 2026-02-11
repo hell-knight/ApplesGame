@@ -6,22 +6,13 @@ namespace ApplesGame
 	void InitApples(Apple& apple, const Game& game)
 	{
 		// init apples
-		//apple.position = GetRandomPositionInScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
+		apple.position = GetRandomPositionInScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
+		apple.isAppleEatan = false;
 
 		// init apple sprite
 		apple.sprite.setTexture(game.appleTexture);
 		SetSpriteSize(apple.sprite, APPLE_SIZE, APPLE_SIZE);
 		SetSpriteRelativeOrigin(apple.sprite, 0.5f, 0.5f);
-	}
-
-	void SetApplePosition(Apple& apple, const Position2D& position)
-	{
-		apple.position = position;
-	}
-
-	Circle GetAppleCollider(const Apple& apple)
-	{
-		return {apple.position, APPLE_SIZE / 2.f};
 	}
 
 	void DrawApple(Apple& apple, sf::RenderWindow& window)
