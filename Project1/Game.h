@@ -10,6 +10,14 @@
 
 namespace ApplesGame
 {
+	enum class GameSettingBits
+	{
+		isInfinite = 1 << 0,
+		isAccelerated = 1 << 1,
+		isNoAccelerated = 1 << 2,
+		isFinite = 1 << 3
+	};
+
 	struct Game
 	{
 		// player data
@@ -17,7 +25,7 @@ namespace ApplesGame
 
 		// apples data
 		Apple* apple = nullptr;
-		unsigned short numApples = 0;
+		int numApples = 0;
 
 		// stones data
 		Stone stone[NUM_STONES];

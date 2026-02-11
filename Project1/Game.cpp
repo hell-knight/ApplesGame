@@ -9,14 +9,6 @@ namespace ApplesGame
 		InitPlayer(game.player, game);
 
 		// init apples
-		if ((game.gameMode & (1 << 0)) || (game.gameMode & (1 << 1)) || (game.gameMode & (1 << 3)))
-		{
-			game.numApples = 20;
-		}
-		else if (game.gameMode & (1 << 2))
-		{
-			game.numApples = 50;
-		}
 		game.apple = new Apple[game.numApples];
 		for (int i = 0; i < game.numApples; ++i)
 		{
@@ -104,12 +96,12 @@ namespace ApplesGame
 
 					game.numEatenApples++;
 					// Update player speed
-					if ((game.gameMode & (1 << 1)) || (game.gameMode & (1 << 2)))
+					if (game.gameMode & static_cast<uint32_t>(GameSettingBits::isAccelerated))
 					{
 						game.player.speed += ACCELERATION;
 					}
 					// Creating a New Apple
-					if ((game.gameMode & (1 << 0)))
+					if (game.gameMode & static_cast<uint32_t>(GameSettingBits::isInfinite))
 					{
 						game.apple[i].position = GetRandomPositionInScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
 					}

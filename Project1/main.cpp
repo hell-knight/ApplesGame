@@ -4,14 +4,6 @@
 #include "Constants.h"
 #include "Game.h"
 
-enum class GameSettingBits
-{
-	isInfinite = 1 << 0,
-	isAccelerated = 1 << 1,
-	isHardcore = 1 << 2,
-	isZenMode = 1 << 3
-};
-
 /*
 void DeinitalizeGame(Game& game)
 {
@@ -27,18 +19,40 @@ int main()
 	int mode = 0;
 	do {
 		std::cout << "Choose a game mode:" << std::endl;
-		std::cout << "1 - with an infinite number of apples, but without the changed speed" << std::endl;
-		std::cout << "2 - with 20 apples and altered speed" << std::endl;
-		std::cout << "3 - with 50 apples at altered speed" << std::endl;
-		std::cout << "4 - with 20 apples, but without the changed speed" << std::endl;
-	} while (std::cin >> mode && mode != 1 && mode != 3 && mode != 2 && mode != 4);
+		std::cout << "1 - acceleration of the player's movement" << std::endl;
+		std::cout << "2 - no acceleration" << std::endl;
+	} while (std::cin >> mode && mode != 1 && mode != 2);
 
-	switch (mode)
+	if (mode == 1)
 	{
-	case 1: game.gameMode |= static_cast<uint32_t>(GameSettingBits::isInfinite); break;
-	case 2: game.gameMode |= static_cast<uint32_t>(GameSettingBits::isAccelerated); break;
-	case 3: game.gameMode |= static_cast<uint32_t>(GameSettingBits::isHardcore); break;
-	case 4: game.gameMode |= static_cast<uint32_t>(GameSettingBits::isZenMode); break;
+		game.gameMode |= static_cast<uint32_t>(GameSettingBits::isAccelerated);
+	}
+	else if (mode == 2)
+	{
+		game.gameMode |= static_cast<uint32_t>(GameSettingBits::isNoAccelerated);
+	}
+	mode = 0;
+
+	do
+	{
+		std::cout << "Choose a game mode:" << std::endl;
+		std::cout << "1 - an infinite number of apples" << std::endl;
+		std::cout << "2 - a finite number of apples" << std::endl;
+	} while(std::cin >> mode && mode != 1 && mode != 2);
+
+	if (mode == 1)
+	{
+		game.gameMode |= static_cast<uint32_t>(GameSettingBits::isInfinite);
+		game.numApples = NUM_APPLES;
+	}
+	else if (mode == 2)
+	{
+		game.gameMode |= static_cast<uint32_t>(GameSettingBits::isFinite);
+		do
+		{
+			std::cout << "Enter the desired number of apples(from 1 to 100): ";
+		} while (std::cin >> mode && mode < MIN_APPLES && mode > MAX_APPLES);
+		game.numApples = mode;
 	}
 
 	int seed = (int)time(nullptr);
