@@ -7,6 +7,7 @@
 #include "Apple.h"
 #include "Stone.h"
 #include "UI.h"
+#include "Leaderboard.h"
 
 namespace ApplesGame
 {
@@ -30,9 +31,12 @@ namespace ApplesGame
 		// stones data
 		Stone stone[NUM_STONES];
 
+		Leaderboard leaderboard;
+
 		UIState uiState;
 
 		// global game data
+		int totalEatenApples = 0;
 		int numEatenApples = 0;
 		bool blsPause = false;
 		float PauseTimeLeft = 0.f;

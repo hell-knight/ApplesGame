@@ -67,14 +67,14 @@ namespace ApplesGame
 			HandleInput(game);
 
 			UpdatePlayerState(game.player, deltaTime);
-			
+
 			// Check screen border collision
 			if (game.player.position.x - PLAYER_SIZE / 2.f < 0 || game.player.position.x + PLAYER_SIZE / 2.f > SCREEN_WIDTH ||
 				game.player.position.y - PLAYER_SIZE / 2.f < 0 || game.player.position.y + PLAYER_SIZE / 2.f > SCREEN_HEIGHT)
 			{
 				StartGameoverState(game);
 			}
-			
+
 			// Check stones collision
 			for (int i = 0; i < NUM_STONES; ++i)
 			{
@@ -84,7 +84,7 @@ namespace ApplesGame
 					StartGameoverState(game);
 				}
 			}
-			
+
 			// check apple collision
 			for (int i = 0; i < game.numApples; ++i)
 			{
@@ -95,6 +95,7 @@ namespace ApplesGame
 					game.player.soundEat.play();
 
 					game.numEatenApples++;
+					game.totalEatenApples++;
 					// Update player speed
 					if (game.gameMode & static_cast<uint32_t>(GameSettingBits::isAccelerated))
 					{
@@ -116,7 +117,11 @@ namespace ApplesGame
 		{
 			if (game.PauseTimeLeft <= 0)
 			{
-				RestartGame(game);
+				InitLeaderboard(game);
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+				{
+					RestartGame(game);
+				}
 			}
 			else
 			{
@@ -128,20 +133,28 @@ namespace ApplesGame
 
 	void DrawGame(Game& game, sf::RenderWindow& window)
 	{
-		DrawPlayer(game.player, window);
-		for (int i = 0; i < game.numApples; ++i)
+		if (game.blsPause && game.PauseTimeLeft <= 0)
 		{
-			if (!game.apple[i].isAppleEatan)
+			DrawLeaderboard(game, window);
+		}
+		else
+		{
+			DrawPlayer(game.player, window);
+			for (int i = 0; i < game.numApples; ++i)
 			{
-				DrawApple(game.apple[i], window);
+				if (!game.apple[i].isAppleEatan)
+				{
+					DrawApple(game.apple[i], window);
+				}
 			}
+			for (int i = 0; i < NUM_STONES; ++i)
+			{
+				DrawStone(game.stone[i], window);
+			}
+			DrawUI(game.uiState, window);
 		}
-		for (int i = 0; i < NUM_STONES; ++i)
-		{
-			DrawStone(game.stone[i], window);
-		}
-		DrawUI(game.uiState, window);
 	}
+
 	void StartGameoverState(Game& game)
 	{
 		game.blsPause = true;

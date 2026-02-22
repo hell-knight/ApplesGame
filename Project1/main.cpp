@@ -38,7 +38,7 @@ int main()
 		std::cout << "Choose a game mode:" << std::endl;
 		std::cout << "1 - an infinite number of apples" << std::endl;
 		std::cout << "2 - a finite number of apples" << std::endl;
-	} while(std::cin >> mode && mode != 1 && mode != 2);
+	} while (std::cin >> mode && mode != 1 && mode != 2);
 
 	if (mode == 1)
 	{

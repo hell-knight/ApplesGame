@@ -16,4 +16,5 @@ namespace ApplesGame
 	const float PAUSE_LENGHT = 3.f;
 	const float STONES_SIZE = 15.f;
 	const int NUM_STONES = 10;
+	//const int LEADERBOARD_SIZE = 10;
 }

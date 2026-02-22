@@ -137,6 +137,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="LeaderBoard.cpp" />
     <ClCompile Include="Stone.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
@@ -146,6 +147,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="LeaderBoard.h" />
     <ClInclude Include="Stone.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>

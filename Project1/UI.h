@@ -1,4 +1,5 @@
 #pragma once
+#include "Constants.h"
 #include <SFML/Graphics.hpp>
 
 
@@ -12,6 +13,9 @@ namespace ApplesGame
 		sf::Text scoreText;
 		sf::Text inputHitText;
 		sf::Text gameOverScoreText;
+		sf::Text placeLeaderboardText[LEADERBOARD_SIZE], nameLeaderboardText[LEADERBOARD_SIZE], 
+			scoreLeaderboardText[LEADERBOARD_SIZE], inputHitLeaderboardText, headLeaderboardText, 
+			bottomLeaderboardText;
 	};
 
 	struct Game;

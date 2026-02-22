@@ -10,7 +10,7 @@ namespace ApplesGame
 		uiState.scoreText.setCharacterSize(20);
 		uiState.scoreText.setFillColor(sf::Color::White);
 		uiState.scoreText.setPosition(10.f, 10.f);
-		
+
 		uiState.inputHitText.setFont(game.font);
 		uiState.inputHitText.setCharacterSize(20);
 		uiState.inputHitText.setFillColor(sf::Color::White);
@@ -30,6 +30,39 @@ namespace ApplesGame
 		uiState.gameOverScoreText.setFillColor(sf::Color::White);
 		uiState.gameOverScoreText.setString("Your score: " + std::to_string(game.numEatenApples));
 		uiState.gameOverScoreText.setPosition(SCREEN_WIDTH / 2.f - uiState.inputHitText.getGlobalBounds().width / 4.f, SCREEN_HEIGHT / 2.f + 50.f);
+	
+		uiState.inputHitLeaderboardText.setFont(game.font);
+		uiState.inputHitLeaderboardText.setCharacterSize(20);
+		uiState.inputHitLeaderboardText.setString("Management: Space - Restart, ESC - exit");
+		uiState.inputHitLeaderboardText.setFillColor(sf::Color::White);
+		uiState.inputHitLeaderboardText.setPosition(SCREEN_WIDTH - uiState.inputHitLeaderboardText.getGlobalBounds().width - 20.f, 10.f);
+	
+		uiState.headLeaderboardText.setFont(game.font);
+		uiState.headLeaderboardText.setCharacterSize(40);
+		uiState.headLeaderboardText.setFillColor(sf::Color::White);
+		uiState.headLeaderboardText.setString("=====LEADERBOARD=====");
+		uiState.headLeaderboardText.setPosition(SCREEN_WIDTH / 2.f - uiState.headLeaderboardText.getGlobalBounds().width / 2.f, 40.f);
+
+		uiState.bottomLeaderboardText.setFont(game.font);
+		uiState.bottomLeaderboardText.setCharacterSize(40);
+		uiState.bottomLeaderboardText.setString("======================");
+		uiState.bottomLeaderboardText.setFillColor(sf::Color::White);
+		uiState.bottomLeaderboardText.setPosition(SCREEN_WIDTH / 2.f - uiState.headLeaderboardText.getGlobalBounds().width / 2.f, 100.f + (LEADERBOARD_SIZE + 1) * 25.f);
+
+		for (int i = 0; i < LEADERBOARD_SIZE; ++i)
+		{
+			uiState.scoreLeaderboardText[i].setFont(game.font);
+			uiState.scoreLeaderboardText[i].setCharacterSize(20);
+			uiState.scoreLeaderboardText[i].setFillColor(sf::Color::White);
+
+			uiState.nameLeaderboardText[i].setFont(game.font);
+			uiState.nameLeaderboardText[i].setCharacterSize(20);
+			uiState.nameLeaderboardText[i].setFillColor(sf::Color::White);
+
+			uiState.placeLeaderboardText[i].setFont(game.font);
+			uiState.placeLeaderboardText[i].setCharacterSize(20);
+			uiState.placeLeaderboardText[i].setFillColor(sf::Color::White);
+		}
 	}
 
 	void UpdateUI(UIState& uiState, Game& game)
