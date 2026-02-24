@@ -6,6 +6,7 @@
 
 namespace ApplesGame
 {
+	/*
 	struct Record
 	{
 		std::string name;
@@ -14,7 +15,7 @@ namespace ApplesGame
 
 	struct Leaderboard
 	{
-		/*
+		
 		std::vector<Record> recordList = {
 			{"Alice", 100},
 			{"Bob", 80},
@@ -25,7 +26,7 @@ namespace ApplesGame
 			{"George", 23},
 			{"Hanna", 19},
 			{"Ivan", 12}
-		};*/
+		};
 		std::map<std::string, int> list = {
 			{"Alice", 100},
 			{"Bob", 80},
@@ -37,12 +38,14 @@ namespace ApplesGame
 			{"Hanna", 19},
 			{"Ivan", 12}
 		};
-	};
+	};*/
 
 	struct Game;
+	struct Record;
 
-	void InitLeaderboard(Game& game);
-	void MyInsertionSort(std::vector<Record>& list);
-	//void UpdateLeaderboard(Game& game);
+	void InitLeaderboard(std::map<std::string, int>& list);
+	void UpdateScore(std::map<std::string, int>& list, const std::string& name, int score);
+	bool VerifNameScore(const std::string& name, int score);
+	std::vector<Record> BuildSortedRecords(std::map<std::string, int>& list);
 	void DrawLeaderboard(Game& game, sf::RenderWindow& window);
 }

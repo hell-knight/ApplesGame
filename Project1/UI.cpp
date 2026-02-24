@@ -48,21 +48,6 @@ namespace ApplesGame
 		uiState.bottomLeaderboardText.setString("======================");
 		uiState.bottomLeaderboardText.setFillColor(sf::Color::White);
 		uiState.bottomLeaderboardText.setPosition(SCREEN_WIDTH / 2.f - uiState.headLeaderboardText.getGlobalBounds().width / 2.f, 100.f + (LEADERBOARD_SIZE + 1) * 25.f);
-
-		for (int i = 0; i < LEADERBOARD_SIZE; ++i)
-		{
-			uiState.scoreLeaderboardText[i].setFont(game.font);
-			uiState.scoreLeaderboardText[i].setCharacterSize(20);
-			uiState.scoreLeaderboardText[i].setFillColor(sf::Color::White);
-
-			uiState.nameLeaderboardText[i].setFont(game.font);
-			uiState.nameLeaderboardText[i].setCharacterSize(20);
-			uiState.nameLeaderboardText[i].setFillColor(sf::Color::White);
-
-			uiState.placeLeaderboardText[i].setFont(game.font);
-			uiState.placeLeaderboardText[i].setCharacterSize(20);
-			uiState.placeLeaderboardText[i].setFillColor(sf::Color::White);
-		}
 	}
 
 	void UpdateUI(UIState& uiState, Game& game)

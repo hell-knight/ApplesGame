@@ -36,6 +36,7 @@ namespace ApplesGame
 		assert(game.eatenSoundBuf.loadFromFile(RESOURCES_PATH + "\\AppleEat.wav"));
 		assert(game.font.loadFromFile(RESOURCES_PATH + "\\Fonts\\Roboto-Black.ttf"));
 
+		InitLeaderboard(game.leaderboard);
 		InitUI(game.uiState, game);
 		RestartGame(game);
 	}
@@ -95,7 +96,6 @@ namespace ApplesGame
 					game.player.soundEat.play();
 
 					game.numEatenApples++;
-					game.totalEatenApples++;
 					// Update player speed
 					if (game.gameMode & static_cast<uint32_t>(GameSettingBits::isAccelerated))
 					{
@@ -117,7 +117,7 @@ namespace ApplesGame
 		{
 			if (game.PauseTimeLeft <= 0)
 			{
-				InitLeaderboard(game);
+				UpdateScore(game.leaderboard, PLAYER_NAME, game.numEatenApples);
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 				{
 					RestartGame(game);

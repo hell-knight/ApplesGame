@@ -13,6 +13,12 @@ namespace ApplesGame
 		float y = 0;
 	};
 
+	struct Record
+	{
+		std::string name;
+		int score;
+	};
+
 	typedef Vector2D Position2D;
 
 	Position2D GetRandomPositionInScreen(float screenWidth, float screenHeight);
@@ -28,4 +34,6 @@ namespace ApplesGame
 	sf::Vector2f GetScale(sf::Sprite& sprite, float desiredWidth, float desiredHeight);
 
 	void SetSpriteRelativeOrigin(sf::Sprite& sprite, float originX, float originY);
+
+	void MyInsertionSort(std::vector<Record>& list);
 }

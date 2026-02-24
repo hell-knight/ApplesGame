@@ -17,4 +17,5 @@ namespace ApplesGame
 	const float STONES_SIZE = 15.f;
 	const int NUM_STONES = 10;
 	const int LEADERBOARD_SIZE = 10;
+	const std::string PLAYER_NAME = "Player";
 }

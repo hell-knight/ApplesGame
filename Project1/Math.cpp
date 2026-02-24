@@ -47,4 +47,23 @@ namespace ApplesGame
 		sf::FloatRect spriteRect = sprite.getLocalBounds();
 		sprite.setOrigin(originX * spriteRect.width, originY * spriteRect.height);
 	}
+
+	void MyInsertionSort(std::vector<Record>& list)
+	{
+		// Go through all the elements, starting with the second one
+		for (size_t i = 1; i < list.size(); ++i)
+		{
+			Record key = list[i];	// the current element that we will insert
+			size_t last = i;			// index of the last element of the sorted part
+
+			while (last > 0 && list[last - 1].score < key.score)
+			{
+				list[last] = list[last - 1];
+				last--;
+			}
+
+			// Insert the key into the vacant space
+			list[last] = key;
+		}
+	}
 }

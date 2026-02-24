@@ -31,12 +31,11 @@ namespace ApplesGame
 		// stones data
 		Stone stone[NUM_STONES];
 
-		Leaderboard leaderboard;
+		std::map<std::string, int> leaderboard;
 
 		UIState uiState;
 
 		// global game data
-		int totalEatenApples = 0;
 		int numEatenApples = 0;
 		bool blsPause = false;
 		float PauseTimeLeft = 0.f;

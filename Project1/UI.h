@@ -13,9 +13,7 @@ namespace ApplesGame
 		sf::Text scoreText;
 		sf::Text inputHitText;
 		sf::Text gameOverScoreText;
-		sf::Text placeLeaderboardText[LEADERBOARD_SIZE], nameLeaderboardText[LEADERBOARD_SIZE], 
-			scoreLeaderboardText[LEADERBOARD_SIZE], inputHitLeaderboardText, headLeaderboardText, 
-			bottomLeaderboardText;
+		sf::Text inputHitLeaderboardText, headLeaderboardText, bottomLeaderboardText;
 	};
 
 	struct Game;
